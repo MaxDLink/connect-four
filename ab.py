@@ -19,7 +19,7 @@ def board():
     board = np.zeros((row, col))  
 
     # display the board 
-    print(board)
+    print("board:", board)
     # return the board 
     return board
 
@@ -33,10 +33,34 @@ def alpha_beta():
 def turn(player, board):
     # yellow is -1 
     # red is 1 
+    # make a copy of board 
+    new_board = board.copy() 
+
     if player == 1: 
-        print("Red's turn") 
+        print("Red's turn")
+        # get the board length 
+        n = len(new_board) 
+        print("N:", n) 
+        # change the board
+        # rannge n: 0 - 3 because n = 4
+        col = np.random.randint(0, n) 
+        row = np.random.randint(0, n) 
+        # change one element of board to new move 
+        new_board[col][row] = 1        
     else: 
-        print("Yellow's turn") 
+        print("Yellow's turn")
+        # get the board length 
+        n = len(new_board) 
+        print("N:", n) 
+        # change the board
+        # rannge n: 0 - 3 because n = 4
+        col = np.random.randint(0, n) 
+        row = np.random.randint(0, n) 
+        # change one element of board to new move 
+        new_board[col][row] = -1        
+    print("new board:", new_board) 
+    return new_board
+
     
 
 
@@ -45,4 +69,4 @@ board = board();
 min_max(); 
 alpha_beta(); 
 red = 1 
-turn(red, board); 
+new_board = turn(red, board); 
