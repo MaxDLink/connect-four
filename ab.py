@@ -19,7 +19,7 @@ def board():
     board = np.zeros((row, col))  
 
     # display the board 
-    print("board:", board)
+    print("board:\n", board)
     # return the board 
     return board
 
@@ -58,7 +58,7 @@ def turn(player, board):
         row = np.random.randint(0, n) 
         # change one element of board to new move 
         new_board[col][row] = -1        
-    print("new board:", new_board) 
+    print("new board:\n", new_board) 
     return new_board
 
     
