@@ -15,17 +15,24 @@ def board():
     print("col:", col) 
     
     # list comprehension to make a board 
-    
-    board = np.zeros((row, col))  
+    # inner list: 0 for _ in range(cols) creates a list of 0's with length col
+    # outer list: for _ in range(row) wraps this list, duplicating the list row times 
+    board = [[0 for _ in range(col)] for _ in range(row)] 
+    # board = np.zeros((row, col))  
 
     # display the board 
     print("board:\n", board)
     # return the board 
     return board
 
+# function for min_max to determine value of nodes 
+def utility(): 
+    print("running utility") 
+    print("node value is...") 
+
 def min_max(): 
     print("min_max algo running")
-
+    utility()
 
 def alpha_beta(): 
     print("alpha beta pruning running") 
@@ -61,9 +68,34 @@ def turn(player, board):
     print("new board:\n", new_board) 
     return new_board
 
-    
+def state_check(state): 
+    # print("State:" , state) 
+    # check if the game is won 
+    # analyze all rows for four 1 or -1 
+    # analyze all columns for four 1 or -1 
+    # how do we do diagonals? start on a row and move in until you find 1 or -1
+    # finding 1 or -1 determines which should be checked, then go to the next row 
+    # on the next row, go one further than you went on the first row.... repeat until 4 hit 
+    n = len(state) 
+    for col in range(n): 
+        for row in range(n):
+            element = state[col][row] 
+            element2 = state[row][col]
+            print("s1: ", element)
+            print("s2: ", element2) 
 
-
+    '''
+    # grab every column, in the case of a 4x4, 0-3 
+    for col in range(n): 
+        for row in range(n):
+            # if -1 or 1 are found on the board
+            # checks down, so this checks the columns.... 
+            if(state[col][row] == -1 or state[col][row] == 1): 
+                print("checking all columns") 
+        
+            if(state[row][col] == -1 or state[row][col] == 1): 
+                print("checking all rows") 
+        '''
 # testing 
 board = board();
 min_max(); 
@@ -73,3 +105,9 @@ new_board = turn(red, board);
 
 yellow = -1 
 new_board = turn(yellow, new_board); 
+
+state_check(new_board) 
+
+# win_test = [1, 1, 1, 1] 
+
+# state_check(win_test) 
