@@ -17,8 +17,9 @@ def board():
     # list comprehension to make a board 
     # inner list: 0 for _ in range(cols) creates a list of 0's with length col
     # outer list: for _ in range(row) wraps this list, duplicating the list row times 
-    board = [[0 for _ in range(col)] for _ in range(row)] 
-    # board = np.zeros((row, col))  
+    # board = [[0 for _ in range(col)] for _ in range(row)] 
+    # casts to float by default, so specify int with dtype
+    board = np.zeros((row, col), dtype = int)  
 
     # display the board 
     print("board:\n", board)
