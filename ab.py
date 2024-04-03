@@ -69,4 +69,7 @@ board = board();
 min_max(); 
 alpha_beta(); 
 red = 1 
-new_board = turn(red, board); 
+new_board = turn(red, board);
+
+yellow = -1 
+new_board = turn(yellow, new_board); 
