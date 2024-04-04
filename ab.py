@@ -149,7 +149,7 @@ while True:
     board = play(player, board)
     
     # for testing break 
-    if(count < 3): 
+    if(count == 3): 
         break; 
     
     # increment count 
