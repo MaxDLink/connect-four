@@ -154,14 +154,93 @@ def row_checker(board):
 def diagonal_check(board, player): 
     print("checking diagonals") 
     n = len(board) 
-    for row in range(n):
+    # general diagonal_count to know when nxn diagonal has been found 
+    # starts at 0 because no diagonal has been found 
+    diagonal_count = 0 
+
+    for row in range(n): # row is 0 - 3 if 4x4 board  
+        # print("ROW IS: ", row)
+        # holds an entire row I.E [1, 0, 0, 0] 
+        entire_row = board[row]
+        # print("entire row: ", entire_row) 
         # check if the row contains 1 or -1 
-        if 1 or -1 in row:
-            # exit the for
-            print("found the first 1, exiting loop") 
-            break
-        row = board[row]
-        print("row: \n", row) 
+        if 1 or -1 in entire_row:
+
+            # records the index of the entire row 
+            row_index = row 
+            # records the value at a row
+            # row gives an entire row, so 0 index it to get one value
+            # this is so that you have the one value dynamically according to each array you pass in 
+            # the one could be negative or positive and this will dynamically grab the type of 1 needed 
+            # grabbing the first element only... this is wrong because there can be 1's in all sorts of places, not just the first index 
+            # to make generalizable, I need to check the contents of the whole row --- use anther loop that is col
+            # this loop is 0-3 for a 4x4 array and iterates across a row 
+            for col in range(n): 
+                # row gives the entire row 
+                # col iteratres across the row 
+                row_value = board[row][col]
+                if row_value == 1 or -1: 
+                    # exit the for
+                    print("found the first 1 at index: ", row_index, " exiting loop")
+                    break 
+
+        # print("row: \n", row_value) 
+        
+        # in the next rows, look one ahead and one behind the found row_index value 
+        print("looking one ahead of ", row_value, "at index: ", row_index)
+        print("and looking one behind of ", row_value, "at index: ", row_index) 
+
+        # range is 1 to n to look at the rows that follow the first row. Do not consider row 0. 
+        for row in range(1, n): 
+            
+            # holds an entire row I.E [1, 0, 0, 0] 
+            entire_row = board[row]
+     
+            # grab only the indexes that are one behind row_index and one after row_index 
+            # the value must be 1 or -1 to even be considered so check that condition first 
+            # this checks if there is simply a 1 or -1 in the entire row 
+            if 1 or -1 in entire_row: 
+                # now grab the index of the 1 or -1
+                # grabs the index that proceeds row_index. This index must be 1 space behind or 1 space after row_index to be considered valid 
+                row_index_proc = row 
+                # records the value at a row
+                # row gives an entire row, so 0 index it to get one value
+                # this is so that you have the one value dynamically according to each array you pass in 
+                # the one could be negative or positive and this will dynamically grab the type of 1 needed 
+                # grabbing the first element only... this is wrong because there can be 1's in all sorts of places, not just the first index 
+                # to make generalizable, I need to check the contents of the whole row --- use anther loop that is col
+                # this loop is 0-3 for a 4x4 array and iterates across a row
+                print("N IS: ", n) 
+                for col in range(n): 
+                    # row gives the entire row 
+                    # col iteratres across the row 
+                    row_value_proc = board[row][col]
+                    if row_value == 1 or -1: 
+                        # exit the for
+                        print("found the next 1 at a proceeding index: ", row_index_proc)
+                        # looking one ahead and one behind 
+                        if row_index + 1 == row_index_proc or row_index - 1 == row_index_proc: 
+                            print("There is a diagonal!") 
+                            # have some count variable to look for n board win condition (generalizable with n) 
+                            # increment diagonal_count because a diagonal has been found 
+                            diagonal_count += 1
+                            # return if diagonal_count == n because n is the length of the board 
+                            # the length of the board also works as a win parameter, because if you have a 4x4, then 4 is the amount of discs the player needs to get in a diagonal 
+                            if(diagonal_count == n): 
+                                state = 1
+                                print("state is: ", state, " returning!")  
+                                return state 
+                            # break out of the for loop 
+                           # break 
+                        # unecessary? 
+                        # break 
+    # no diagonals found
+    state = 0 
+    return state 
+     
+                
+                
+
 
 def state_check(board, player): 
     # starting values for terminal condition 
@@ -254,9 +333,14 @@ while True:
     count+=1
 
 player = 1 
-print("checking diagonals")
-arr = [[1, 0, 0, 0],
-       [0, 1, 0, 0]]
+print("TESTING: checking diagonals")
+'''arr = [[1, 0, 0, 0],
+      [0, 1, 0, 0], 
+       [0, 0, 1, 0], 
+       [0, 0, 0, 1]] 
+''' 
+arr = np.array([[1, 0, 0, 0], 
+                [0, 1, 0, 0]]) 
 diagonal_check(arr, player); 
 # test win condition here
 # all encompassing check for win conditions 
