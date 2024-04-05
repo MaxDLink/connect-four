@@ -72,7 +72,7 @@ def turn(player, board):
     # print("new board:\n", new_board) 
     return new_board
 
-def col_checker(board): # broken 
+def col_checker(board): 
     # initialize state to 0 because the game by default is not won 
     state = 0 
     # get the length of the board
@@ -150,6 +150,47 @@ def row_checker(board):
 
     return state 
 
+# diagonal check 
+def diagonal_check(board, player): 
+    print("checking diagonals") 
+    n = len(board) 
+    for row in range(n):
+        # check if the row contains 1 or -1 
+        if 1 or -1 in row:
+            # exit the for
+            print("found the first 1, exiting loop") 
+            break
+        row = board[row]
+        print("row: \n", row) 
+
+def state_check(board, player): 
+    # starting values for terminal condition 
+    # start as 0 because no one has won the game yet 
+    # 1 when game won 
+    state_row = 0 
+    state_col = 0 
+    # print("State:" , state) 
+    # check if the game is won 
+    # analyze all rows for four 1 or -1 
+    # analyze all columns for four 1 or -1 
+    # how do we do diagonals? start on a row and move in until you find 1 or -1
+    # finding 1 or -1 determines which should be checked, then go to the next row 
+    # on the next row, go one further than you went on the first row.... repeat until 4 hit
+    # check rows - works  
+    ##state_row = row_checker(board) 
+    # check columns 
+    ##state_col = col_checker(board)
+    # check diagonal 
+    diagonal_check(board, player) 
+
+    if(state_row == 1 or state_col == 1): 
+        print("player: ", player, " won! Ending game.")
+        # exit the program because the game has been won 
+        # sys.exit()
+        print("pretend sys.exit(). Reenable sys.exit() after testing!") 
+    else: 
+        print("win state not reached") 
+
 def play(player, board): 
     if(player == 1): 
         print("red is playing on board.")
@@ -179,32 +220,6 @@ def play(player, board):
     return board 
 
 
-def state_check(board, player): 
-    # starting values for terminal condition 
-    # start as 0 because no one has won the game yet 
-    # 1 when game won 
-    state_row = 0 
-    state_col = 0 
-    # print("State:" , state) 
-    # check if the game is won 
-    # analyze all rows for four 1 or -1 
-    # analyze all columns for four 1 or -1 
-    # how do we do diagonals? start on a row and move in until you find 1 or -1
-    # finding 1 or -1 determines which should be checked, then go to the next row 
-    # on the next row, go one further than you went on the first row.... repeat until 4 hit
-    # check rows - works  
-    state_row = row_checker(board) 
-    # check columns 
-    state_col = col_checker(board)
-    # check diagonal 
-
-    if(state_row == 1 or state_col == 1): 
-        print("player: ", player, " won! Ending game.")
-        # exit the program because the game has been won 
-        # sys.exit()
-        print("pretend sys.exit(). Reenable sys.exit() after testing!") 
-    else: 
-        print("win state not reached") 
 # test 
 board = board();
 print("board:\n", board)
@@ -236,33 +251,27 @@ while True:
         break; 
     
     # increment count 
-    count+=1 
+    count+=1
+
+player = 1 
+print("checking diagonals")
+arr = [[1, 0, 0, 0],
+       [0, 1, 0, 0]]
+diagonal_check(arr, player); 
 # test win condition here
 # all encompassing check for win conditions 
-print("testing player 1 column check") 
-player = 1  
-test_win = np.array([[1, 0, 0, 0], 
-                    [1, 0, 0, 0]]) 
-print("testing array \n: ", test_win) 
-state_check(test_win, player) 
-
-# for player 2 
-player = -1 
-test_win = np.array([[-1, 0, 0, 0], 
-            [-1, 0, 0, 0]]) 
-print("testing array \n: ", test_win) 
-state_check(test_win, player) 
-
 # testing for rows 
+'''
 player = 1 
-test_win = np.array([[1, 1, 1, 1], 
-            [0, 0, 0, 0]]) 
+test_win = np.array([[1, 0, 0, 0], 
+                     [0, 1, 0, 0]]) 
 print("testing array \n: ", test_win) 
 state_check(test_win, player) 
 
 # player 2 
 player = -1 
-test_win = np.array([[-1, -1, -1, -1], 
+test_win = np.array([[-1, 0, 0, 0], 
             [0, 0, 0, 0]])  
 print("testing array \n: ", test_win) 
 state_check(test_win, player) 
+'''
