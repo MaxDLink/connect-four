@@ -48,7 +48,7 @@ def turn(player, board):
     new_board = board.copy() 
 
     if player == 1: 
-        print("Red's turn")
+        # print("Red's turn")
         # get the board length 
         n = len(new_board) 
         # print("N:", n) 
@@ -59,7 +59,7 @@ def turn(player, board):
         # change one element of board to new move 
         new_board[col][row] = 1        
     else: 
-        print("Yellow's turn")
+        # print("Yellow's turn")
         # get the board length 
         n = len(new_board) 
         # print("N:", n) 
@@ -69,7 +69,7 @@ def turn(player, board):
         row = np.random.randint(0, n) 
         # change one element of board to new move 
         new_board[col][row] = -1        
-    print("new board:\n", new_board) 
+    # print("new board:\n", new_board) 
     return new_board
 
 def col_checker(board): # broken 
@@ -78,25 +78,34 @@ def col_checker(board): # broken
     # get the length of the board
     # for 4x4 should be 4 becauase len takes the vertical length 
     n = len(board)
-    
+    # empty list for holding found column   
+    column = [] 
     # generate comparison array of 1's 
     # dynamic array allocation with n 
     # win state changes based on player 
     # n is the amount of columns, filling each column with only a single 1 to make a 1 row 
+    # np.ones makes a matrix by default so index at 0 to just get one array for our comparison  
     win_state1 = np.ones((1, n), dtype = int) 
-     # negative win state 
+    #print("W1: \n", win_state1[0]) 
+    # negative win state
+    # np.full makes a matrix by default so we must index at 0 to just get one array for our comparison 
     win_state2 = np.full((1, n), -1) 
- 
+    #print("W2:\n", win_state2[0])  
     # check every row of the board 
     # 0-3 range for row
     for col in range(len(board)):
-        print("col for column function: \n", board[col][0])
-
-        print("col win state: ", win_state1) 
+        # print("test_set column: \n", board[col][0])
+        # holds the entire column in a column string 
+        # builds up as loop is iterated 
+        column += [board[col][0]]
+        # print("col win state: ", win_state1) 
         # print(board[col][0])
-        # use np.array_equal to compare arrays 
-        if(np.array_equal(board[col][0], win_state1) or np.array_equal(board[col][0], win_state2)): 
-           state = 1  
+    # print found column for testing 
+    print("col array: ", column) 
+    # use np.array_equal to compare arrays
+    if(np.array_equal(column, win_state1[0]) or np.array_equal(column, win_state2[0])): 
+            # print("entered if!") 
+            state = 1  
     return state 
 
 # finds column 
@@ -121,22 +130,23 @@ def row_checker(board):
     win_state1 = np.ones((1, r), dtype = int)
     # negative win state 
     # np.full for general fill 
+    # np.full defaults to making a matrix, so to get a single array we will have to index 0 
     win_state2 = np.full((1, r), -1) 
     # print("win_state:", win_state) 
     # check every row of the board 
     # 0-3 range for row 
     for row in range(n): 
-        print("this is the row being compared: \n", board[row])
-        print("win state:\n ", win_state1[0])
+        # print("this is the row being compared: \n", board[row])
+        # print("win state:\n ", win_state1[0])
         # if the game is won, set state to 1 
         # compare using np.array_equal to compare each element of the arrays to each other 
         # if they are equal enter the if statement 
         # this may not be okay to compare arrays directly. 
         # if state is not one 
         if(np.array_equal(board[row], win_state1[0]) or np.array_equal(board[row], win_state2[0]) and state != 1):
-            print("state updated!") 
+            # print("state updated!") 
             state = 1 
-            print("State: ", state) 
+            # print("State: ", state) 
 
     return state 
 
@@ -170,6 +180,11 @@ def play(player, board):
 
 
 def state_check(board, player): 
+    # starting values for terminal condition 
+    # start as 0 because no one has won the game yet 
+    # 1 when game won 
+    state_row = 0 
+    state_col = 0 
     # print("State:" , state) 
     # check if the game is won 
     # analyze all rows for four 1 or -1 
@@ -177,7 +192,7 @@ def state_check(board, player):
     # how do we do diagonals? start on a row and move in until you find 1 or -1
     # finding 1 or -1 determines which should be checked, then go to the next row 
     # on the next row, go one further than you went on the first row.... repeat until 4 hit
-    # check rows 
+    # check rows - works  
     state_row = row_checker(board) 
     # check columns 
     state_col = col_checker(board)
@@ -186,7 +201,8 @@ def state_check(board, player):
     if(state_row == 1 or state_col == 1): 
         print("player: ", player, " won! Ending game.")
         # exit the program because the game has been won 
-        sys.exit()
+        # sys.exit()
+        print("pretend sys.exit(). Reenable sys.exit() after testing!") 
     else: 
         print("win state not reached") 
 # test 
@@ -222,10 +238,31 @@ while True:
     # increment count 
     count+=1 
 # test win condition here
-player = -1  
-test_win = np.array([[0, 0, 0, 0], 
-                    [-1, -1, -1, -1]]) 
-print("testing win state!")  
+# all encompassing check for win conditions 
+print("testing player 1 column check") 
+player = 1  
+test_win = np.array([[1, 0, 0, 0], 
+                    [1, 0, 0, 0]]) 
+print("testing array \n: ", test_win) 
 state_check(test_win, player) 
 
+# for player 2 
+player = -1 
+test_win = np.array([[-1, 0, 0, 0], 
+            [-1, 0, 0, 0]]) 
+print("testing array \n: ", test_win) 
+state_check(test_win, player) 
 
+# testing for rows 
+player = 1 
+test_win = np.array([[1, 1, 1, 1], 
+            [0, 0, 0, 0]]) 
+print("testing array \n: ", test_win) 
+state_check(test_win, player) 
+
+# player 2 
+player = -1 
+test_win = np.array([[-1, -1, -1, -1], 
+            [0, 0, 0, 0]])  
+print("testing array \n: ", test_win) 
+state_check(test_win, player) 
