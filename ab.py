@@ -72,7 +72,7 @@ def turn(player, board):
     print("new board:\n", new_board) 
     return new_board
 
-def row_checker(board): # broken 
+def col_checker(board): # broken 
     # initialize state to 0 because the game by default is not won 
     state = 0 
     # get the length of the board
@@ -101,7 +101,7 @@ def row_checker(board): # broken
 
 # finds column 
 # need to rename 
-def col_checker(board):
+def row_checker(board):
 
     # real logic 
     # initialize state to 0 because the game by default is not won 
@@ -110,26 +110,33 @@ def col_checker(board):
     # for 4x4 should be 4 becauase len takes the vertical length 
     n = len(board)
     
+    # get the shape of board 
+    # r is the length of the rows on the board 
+    r = board.shape[1]
+    # print('r:', r) 
     # generate comparison array of 1's 
-    # n is for dynamic array of 1 allocation based on board size 
-    # n is the amount of columns, filling them with 1's 
-    win_state1 = np.ones((1, n), dtype = int)
+    # r is for dynamic array of 1 allocation based on board size 
+    # r is the amount of columns, filling them with 1's
+    # np.ones defaults to making a matrix, so to get a single array we will have to index 0 
+    win_state1 = np.ones((1, r), dtype = int)
     # negative win state 
     # np.full for general fill 
-    win_state2 = np.full((1, n), -1) 
+    win_state2 = np.full((1, r), -1) 
     # print("win_state:", win_state) 
     # check every row of the board 
     # 0-3 range for row 
     for row in range(n): 
         print("this is the row being compared: \n", board[row])
-        print("win state:\n ", win_state1)
+        print("win state:\n ", win_state1[0])
         # if the game is won, set state to 1 
         # compare using np.array_equal to compare each element of the arrays to each other 
         # if they are equal enter the if statement 
         # this may not be okay to compare arrays directly. 
-        if(np.array_equal(board[row], win_state1) or np.array_equal(board[row], win_state2)): 
+        # if state is not one 
+        if(np.array_equal(board[row], win_state1[0]) or np.array_equal(board[row], win_state2[0]) and state != 1):
+            print("state updated!") 
             state = 1 
-        
+            print("State: ", state) 
 
     return state 
 
@@ -215,9 +222,9 @@ while True:
     # increment count 
     count+=1 
 # test win condition here
-player = 1 
-test_win = [[1, 0, 0, 0], 
-            [1, 0, 0, 0]]
+player = -1  
+test_win = np.array([[0, 0, 0, 0], 
+                    [-1, -1, -1, -1]]) 
 print("testing win state!")  
 state_check(test_win, player) 
 
