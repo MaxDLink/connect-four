@@ -247,7 +247,8 @@ def state_check(board, player):
     # start as 0 because no one has won the game yet 
     # 1 when game won 
     state_row = 0 
-    state_col = 0 
+    state_col = 0
+    state_diag = 0 
     # print("State:" , state) 
     # check if the game is won 
     # analyze all rows for four 1 or -1 
@@ -256,13 +257,13 @@ def state_check(board, player):
     # finding 1 or -1 determines which should be checked, then go to the next row 
     # on the next row, go one further than you went on the first row.... repeat until 4 hit
     # check rows - works  
-    ##state_row = row_checker(board) 
+    state_row = row_checker(board) 
     # check columns 
-    ##state_col = col_checker(board)
+    state_col = col_checker(board)
     # check diagonal 
     diagonal_check(board, player) 
 
-    if(state_row == 1 or state_col == 1): 
+    if(state_row == 1 or state_col == 1 or state_diag == 1): 
         print("player: ", player, " won! Ending game.")
         # exit the program because the game has been won 
         # sys.exit()
